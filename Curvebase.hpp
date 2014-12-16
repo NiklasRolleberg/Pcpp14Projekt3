@@ -24,4 +24,21 @@ public:
     double y(double s); //arc length parametrization
 };
 
+double integrate(double a, double b)
+{
+    //räkna ut avståndet från a till b
+    return 0;
+}
+
+class Line : public Curvebase
+{
+public:
+    Line(double a_, double b_) : a(a_), b(b_) {}
+private:
+    double xp(double p) = 0;
+    double yp(double p) = 0;
+    double dxp(double p) = 0;
+    double dyp(double p) = 0;
+};
+
 #endif // CURVEBASE_H
