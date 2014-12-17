@@ -27,28 +27,33 @@ Domain::Domain(const Curvebase& s1, const Curvebase& s2, const Curvebase& s3, co
     sides[1] = s2;
     sides[2] = s3;
     sides[3] = s4;
-//    if (~check_consistency())
-//        sides[0] = sides[1] = sides[2] = sides[3] = std::nullptr;
+    if (~check_consistency())
+        sides[0] = sides[1] = sides[2] = sides[3] = nullptr;
     m_ = n_ = 0;
     x_ = y_ = nullptr;
 }
 
 
-//Domain::grid_generation(int m, int n) {
-//    if (m <= 0 || n <= 0) ;
-//        // Do something meaningful
-//        std::cout << "Size cannot be negative";
-//    else
-//    {
-//        if (m_ > 0)
-//        {
-//            // There exists already a grid!
-//            delete [] x_;
-//            delete [] y_;
-//        }
-//        m_ = m; n_ = n;
-//        x_ = new double[m_*n_];
-//        y_ = new double[m_*n_];
-//        // Fill x_[] and y_[] with values!
-//    }
-//}
+void Domain::generate_grid(int m, int n) {
+    if (m <= 0 || n <= 0)
+    {
+        // Do something meaningful
+        std::cout << "Size cannot be negative";
+        //exit(0);//?
+    }
+    else
+    {
+        if (m_ > 0)
+        {
+            // There exists already a grid!
+            delete [] x_;
+            delete [] y_;
+        }
+        m_ = m; n_ = n;
+        x_ = new double[m_*n_];
+        y_ = new double[m_*n_];
+        // Fill x_[] and y_[] with values!
+
+
+    }
+}
