@@ -13,11 +13,14 @@ public:
     /** constructors */
     Point(double xx = 0.0, double yy = 0.0) : x(xx), y(yy) { }
     Point(const Point& Q): x(Q.x), y(Q.y) { }
-    ~Point() { }
+    ~Point()
+    {
+        std::cerr << "destructor: Point" << std::endl;
+    }
 
     /** functions */
-    double X() const { return x; }
-    double Y() const { return y; }
+    inline double X() const { return x; }
+    inline double Y() const { return y; }
     void zero() { x = y = 0.0; }
 
     /** operators */
