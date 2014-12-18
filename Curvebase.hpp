@@ -10,6 +10,9 @@ protected:
     Point b;
     //int rev; // orientation of the curve
     double length;
+
+    double dx;
+    double dy;
     //(......)
 
     virtual double xp(double p) = 0;
@@ -20,7 +23,8 @@ protected:
     double integrate(Point a, Point b) //arc length integral
     {
         //räknar ut längden av kurvan
-        return 0;
+        Point avst = b+(-a);
+        return sqrt(avst.X()*avst.X()+avst.Y()*avst.Y());
     }
 
 public:
@@ -31,26 +35,31 @@ public:
 
     double x(double s) //arc length parametrization
     {
-        return xp(s*(b.X()-a.X()) + a.X()); //fel kanske
+        return xp(s*length); //fel kanske
     }
     double y(double s) //arc length parametrization s e[0,1];
     {
-        return xp(s*(b.Y()-a.Y()) + a.Y()); //fel kanske
+        return yp(s*length); //fel kanske
     }
 };
 
 /**---------------------------Line class------------------------------*/
 class Line : public Curvebase
 {
-private:
-    double dx_;
-    double dy_;
-
 public:
     Line(Point a_, Point b_)
     {
+        std::cerr << "line constructor" << std::endl;
+
         a = a_;
         b = b_;
+        length = integrate(a,b);
+        Point p = b+(-a);
+
+        dx = p.X() / length;
+        dy = p.Y() / length;
+
+        std::cerr << "\t\tLength: " << length << " dx: "<< dx << " dy:" << dy << std::endl;
     }
 
     ~Line()
@@ -61,11 +70,11 @@ public:
 private:
     double xp(double p)
     {
-        return 0;
+        return a.X() + dx*p;
     }
     double yp(double p)
     {
-        return 0;
+        return a.Y() + dy*p;
     }
     double dxp(double p)
     {
@@ -80,10 +89,6 @@ private:
 /**--------------------------Curve class----------------------*/
 class Curve : public Curvebase
 {
-private:
-    double dx_;
-    double dy_;
-
 public:
     Curve(Point a_, Point b_)
     {
