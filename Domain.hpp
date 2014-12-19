@@ -3,7 +3,7 @@
 
 class Domain {
 public:
-    Domain(const Curvebase&, const Curvebase&, const Curvebase&, const Curvebase&);
+    Domain(Curvebase&, Curvebase&, Curvebase&, Curvebase&);
     Domain(const Domain& d);
     Domain &operator=(Domain &d);
     ~Domain();
@@ -23,15 +23,23 @@ private:
 };
 
 //Constructor
-Domain::Domain(const Curvebase& s1, const Curvebase& s2, const Curvebase& s3, const Curvebase& s4)
+Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
 {
+    std::cout << "Test innan i domain:" << std::endl;
+    std::cout << "s=0: " << s1.x(0) << "\ns=0.5: " << s1.x(0.5) << "\ns=1: "<< s1.x(1) << std::endl;
+
+    //std::cerr <<"\n\nSize Curvebase :"<< sizeof(Curvebase) << "\nSize Line: "<< sizeof(Line) << "\nSize s1:" << sizeof(s1) << std::endl;
+
     sides = (Curvebase*)calloc(4,sizeof(Curvebase));
 
     sides[0] = s1;
     sides[1] = s2;
     sides[2] = s3;
     sides[3] = s4;
-    std::cerr << sides[0].x(1)<< std::endl;
+
+    std::cout << "Test efter i domain:" << std::endl;
+    std::cout << "s=0: " << sides[0].x(0) << "\ns=0.5: " << sides[0].x(0.5) << "\ns=1: "<< sides[0].x(1) << std::endl;
+
    // if (~check_consistency())
      //   sides[0] = sides[1] = sides[2] = sides[3] = nullptr;
     m_ = n_ = 0;

@@ -35,7 +35,7 @@ public:
 
     double x(double s) //arc length parametrization
     {
-        return xp(s*length); //fel kanske
+        return  xp(s*length);
     }
     double y(double s) //arc length parametrization s e[0,1];
     {
