@@ -38,7 +38,9 @@ int main()
 
     Domain D = Domain(L1, L2, L3, L4);
 
-    D.generate_grid(2, 3);
+    int n = 2;
+    int m = 3;
+    D.generate_grid(m, n);
 
 	return 0;
 }

@@ -1,6 +1,7 @@
 #include "Curvebase.hpp"
 #include <cstdlib>
 #include <memory>
+#include "Point.hpp"
 
 class Domain {
 public:
@@ -122,16 +123,24 @@ void Domain::generate_grid(int m, int n) {
         x_ = new double[m_*n_];
         y_ = new double[m_*n_];
         // Fill x_[] and y_[] with values!
-        double hy = 1./m;
-        double hx = 1./n;
+        double hy = 1./m_;
+        double hx = 1./n_;
 
-        for(int i=0; i<n; i++)
+        for(int i=0; i<n_; i++)
         {
-            for(int j=0; j<m; j++)
+            for(int j=0; j<m_; j++)
             {
                 x_[i+j*n] = FIx(hx*i, hy*i);
                 y_[i+j*n] = FIy(hx*i, hy*i);
             }
+        }
+
+        std::cout << "x\n";
+        for(int i=0;i<m_;i++)
+        {
+            for(int j=0;j<n_;j++)
+                std::cout << x_[i+j*n_] << " ";
+            std::cerr << std::endl;
         }
 
     }
@@ -179,7 +188,7 @@ double Domain::FIx(double e1, double e2)
 
 double Domain::FIy(double e1, double e2)
 {
-    std::cerr << "FIx"<< std::endl;
+    std::cerr << "FIy"<< std::endl;
     double FIy = fi1(e1)*sides[3]->y(e2) + fi2(e1)*sides[1]->y(e2) + fi1(e2)*sides[0]->y(e1) + fi2(e2)*sides[2]->y(e1)
                 -fi1(e1)*fi1(e2)*sides[0]->y(0)
                 -fi2(e1)*fi1(e2)*sides[1]->y(0)
@@ -188,3 +197,4 @@ double Domain::FIy(double e1, double e2)
 
     return FIy;
 }
+

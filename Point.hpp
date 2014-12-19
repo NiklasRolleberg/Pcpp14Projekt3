@@ -15,7 +15,7 @@ public:
     Point(const Point& Q): x(Q.x), y(Q.y) { }
     ~Point()
     {
-        std::cerr << "destructor: Point" << std::endl;
+        //std::cerr << "destructor: Point" << std::endl;
     }
 
     /** functions */
