@@ -1,5 +1,6 @@
 #include "Curvebase.hpp"
 #include <cstdlib>
+#include <memory>
 
 class Domain {
 public:
@@ -11,7 +12,9 @@ public:
     // more members
 
 private:
-    Curvebase* sides;
+    //std::array<Curvebase, 10> sides;
+    Curvebase* sides[4];
+    //std::shared_ptr<Curvebase> sides[4];
     double *x_, *y_;
     int m_, n_;
     bool check_consistency();
@@ -25,20 +28,21 @@ private:
 //Constructor
 Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
 {
+
     std::cout << "Test innan i domain:" << std::endl;
     std::cout << "s=0: " << s1.x(0) << "\ns=0.5: " << s1.x(0.5) << "\ns=1: "<< s1.x(1) << std::endl;
 
     //std::cerr <<"\n\nSize Curvebase :"<< sizeof(Curvebase) << "\nSize Line: "<< sizeof(Line) << "\nSize s1:" << sizeof(s1) << std::endl;
 
-    sides = (Curvebase*)calloc(4,sizeof(Curvebase));
 
-    sides[0] = s1;
-    sides[1] = s2;
-    sides[2] = s3;
-    sides[3] = s4;
+    //sides = (Curvebase*)calloc(4,sizeof(Curvebase));
+    sides[0] = &s1;
+    sides[1] = &s2;
+    sides[2] = &s3;
+    sides[3] = &s4;
 
     std::cout << "Test efter i domain:" << std::endl;
-    std::cout << "s=0: " << sides[0].x(0) << "\ns=0.5: " << sides[0].x(0.5) << "\ns=1: "<< sides[0].x(1) << std::endl;
+    std::cout << "s=0: " << sides[0]->x(0) << "\ns=0.5: " << sides[0]->x(0.5) << "\ns=1: "<< sides[0]->x(1) << std::endl;
 
    // if (~check_consistency())
      //   sides[0] = sides[1] = sides[2] = sides[3] = nullptr;
@@ -164,11 +168,11 @@ double Domain::fi2(double s)
 double Domain::FIx(double e1, double e2)
 {
     std::cerr << "FIx" << std::endl;
-    double FIx = fi1(e1)*sides[3].x(e2) + fi2(e1)*sides[1].x(e2) + fi1(e2)*sides[0].x(e1) + fi2(e2)*sides[2].x(e1)
-                -fi1(e1)*fi1(e2)*sides[0].x(0)
-                -fi2(e1)*fi1(e2)*sides[1].x(0)
-                -fi2(e1)*fi1(e2)*sides[0].x(1)
-                -fi2(e1)*fi2(e2)*sides[1].x(1);
+    double FIx = fi1(e1)*sides[3]->x(e2) + fi2(e1)*sides[1]->x(e2) + fi1(e2)*sides[0]->x(e1) + fi2(e2)*sides[2]->x(e1)
+                -fi1(e1)*fi1(e2)*sides[0]->x(0)
+                -fi2(e1)*fi1(e2)*sides[1]->x(0)
+                -fi2(e1)*fi1(e2)*sides[0]->x(1)
+                -fi2(e1)*fi2(e2)*sides[1]->x(1);
 
     return FIx;
 }
@@ -176,11 +180,11 @@ double Domain::FIx(double e1, double e2)
 double Domain::FIy(double e1, double e2)
 {
     std::cerr << "FIx"<< std::endl;
-    double FIy = fi1(e1)*sides[3].y(e2) + fi2(e1)*sides[1].y(e2) + fi1(e2)*sides[0].y(e1) + fi2(e2)*sides[2].y(e1)
-                -fi1(e1)*fi1(e2)*sides[0].y(0)
-                -fi2(e1)*fi1(e2)*sides[1].y(0)
-                -fi2(e1)*fi1(e2)*sides[0].y(1)
-                -fi2(e1)*fi2(e2)*sides[1].y(1);
+    double FIy = fi1(e1)*sides[3]->y(e2) + fi2(e1)*sides[1]->y(e2) + fi1(e2)*sides[0]->y(e1) + fi2(e2)*sides[2]->y(e1)
+                -fi1(e1)*fi1(e2)*sides[0]->y(0)
+                -fi2(e1)*fi1(e2)*sides[1]->y(0)
+                -fi2(e1)*fi1(e2)*sides[0]->y(1)
+                -fi2(e1)*fi2(e2)*sides[1]->y(1);
 
     return FIy;
 }

@@ -28,10 +28,7 @@ protected:
     }
 
 public:
-    Curvebase() //constructor
-    {
-        std::cerr << "Curvebase()" << std::endl;
-    }
+    Curvebase() {}
 
     double x(double s) //arc length parametrization
     {

@@ -10,12 +10,12 @@ int main()
 {
 	cout << "HEJSAN"<< endl;
 
-	/*test*/
+	/*test
 	Point P(0.1,0.1);
 	Point P1;
 	Point P2;
 	//Point P3;
-	/*
+
 	P1 = P;
 	P2 = -P;
 	P1 += P2;
