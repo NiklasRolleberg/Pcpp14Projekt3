@@ -9,23 +9,16 @@ protected:
     Point a;
     Point b;
     //int rev; // orientation of the curve
+    public:
     double length;
-
-    double dx;
-    double dy;
+    protected:
     //(......)
 
     virtual double xp(double p) = 0;
     virtual double yp(double p) = 0;
     virtual double dxp(double p) = 0;
     virtual double dyp(double p) = 0;
-
-    double integrate(Point a, Point b) //arc length integral
-    {
-        //räknar ut längden av kurvan
-        Point avst = b+(-a);
-        return sqrt(avst.X()*avst.X()+avst.Y()*avst.Y());
-    }
+    virtual double integrate(Point a, Point b) = 0;//arc length integral
 
 public:
     Curvebase() {}
@@ -43,6 +36,10 @@ public:
 /**---------------------------Line class------------------------------*/
 class Line : public Curvebase
 {
+private:
+    double dx;
+    double dy;
+
 public:
     Line(Point a_, Point b_)
     {
@@ -50,11 +47,13 @@ public:
 
         a = a_;
         b = b_;
-        length = integrate(a,b);
-        Point p = b+(-a);
 
-        dx = p.X() / length;
-        dy = p.Y() / length;
+        Point p = b+(-a);
+        dx = p.X();
+        dy = p.Y();
+
+        length = integrate(a,b);
+
 
         std::cerr << "\t\tLength: " << length << " dx: "<< dx << " dy:" << dy << std::endl;
     }
@@ -81,6 +80,12 @@ private:
     {
         return 0;
     }
+
+    double integrate(Point a, Point b) //räknar ut längden av kurvan
+    {
+        Point avst = b+(-a);
+        return sqrt(avst.X()*avst.X()+avst.Y()*avst.Y());
+    }
 };
 
 /**--------------------------Curve class----------------------*/
@@ -99,11 +104,11 @@ public:
     }
 
 private:
-    double xp(double p)
+    double xp(double p) //finv(p)
     {
         return 0;
     }
-    double yp(double p)
+    double yp(double p) //f(p)
     {
         return 0;
     }
@@ -114,6 +119,20 @@ private:
     double dyp(double p)
     {
         return 0;
+    }
+
+    double integrate(Point a, Point b)
+    {
+        length = 0;
+        double h = 0.01;
+        double s = 0;
+        while (s<=1)
+        {
+            double xx = dxp(s);
+            double yy = dyp(s);
+            length += sqrt(xx*xx + yy*yy);
+            s+=h;
+        }
     }
 };
 

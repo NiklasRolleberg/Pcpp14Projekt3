@@ -33,6 +33,7 @@ int main()
     Line L3(H3, H4);
     Line L4(H4, H1);
 
+    /*
     std::cout << "Test innan:" << std::endl;
     std::cout << "s=0: " << L1.x(0) << "\ns=0.5: " << L1.x(0.5) << "\ns=1: "<< L1.x(1) << std::endl;
 
@@ -40,7 +41,10 @@ int main()
 
     int n = 2;
     int m = 3;
-    D.generate_grid(m, n);
+    D.generate_grid(m, n);*/
+
+    Line test(Point(0,0),Point(1,1));
+    std::cout << "Length :" << test.length << std::endl;
 
 	return 0;
 }
