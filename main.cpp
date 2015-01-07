@@ -43,8 +43,48 @@ int main()
     int m = 3;
     D.generate_grid(m, n);*/
 
-    Line test(Point(0,0),Point(1,1));
-    std::cout << "Length :" << test.length << std::endl;
 
+    Line test(Point(0,0),Point(0,1));
+    int n = 3;
+    double steg = 1./(n-1);
+    double x[n];
+    double y[n];
+
+    for(int i=0; i<n; i++)
+    {
+        x[i] = test.x(steg*i);
+        y[i] = test.y(steg*i);
+    }
+
+    cout << "Test: line(0,1)->(0,1)" << std::endl;
+    cout << "points on the line: ";
+    for(int i=0;i<n;i++)
+    {
+        cout << "(" << x[i] << "," << y[i] << ")  ";
+    }
+    cout << endl;
+
+
+    /*
+    Curve test();
+    int n = 3;
+    double steg = 1./(n-1);
+    double x[n];
+    double y[n];
+
+    for(int i=0; i<n; i++)
+    {
+        x[i] = test.x(steg*i);
+        y[i] = test.y(steg*i);
+    }
+
+    cout << "Test: line(0,1)->(0,1)" << std::endl;
+    cout << "points on the line: ";
+    for(int i=0;i<n;i++)
+    {
+        cout << "(" << x[i] << "," << y[i] << ")  ";
+    }
+    cout << endl;
+    */
 	return 0;
 }

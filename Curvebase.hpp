@@ -4,12 +4,17 @@
 
 class Curvebase {
 protected:
-    double pmin; //vad är detta?
-    double pmax;
-    Point a;
-    Point b;
+    double pmin = 0; //vad är detta?
+    double pmax = 0;;
+    double a;
+    double b;
+
+    double xStart;
+    double yStart;
+
     //int rev; // orientation of the curve
     public:
+
     double length;
     protected:
     //(......)
@@ -18,17 +23,19 @@ protected:
     virtual double yp(double p) = 0;
     virtual double dxp(double p) = 0;
     virtual double dyp(double p) = 0;
-    virtual double integrate(Point a, Point b) = 0;//arc length integral
+    virtual double integrate(double a, double b) = 0;//arc length integral
 
 public:
     Curvebase() {}
 
     double x(double s) //arc length parametrization
     {
+        //return  xp(s*length);
         return  xp(s*length);
     }
     double y(double s) //arc length parametrization s e[0,1];
     {
+        //return yp(s*length); //fel kanske
         return yp(s*length); //fel kanske
     }
 };
@@ -45,15 +52,15 @@ public:
     {
         std::cerr << "line constructor" << std::endl;
 
-        a = a_;
-        b = b_;
 
-        Point p = b+(-a);
-        dx = p.X();
-        dy = p.Y();
+        xStart = a_.X();
+        yStart = a_.Y();
 
-        length = integrate(a,b);
+        Point avst = b_+(-a_);
+        length = sqrt(avst.X()*avst.X()+avst.Y()*avst.Y());
 
+        dx = avst.X();
+        dy = avst.Y();
 
         std::cerr << "\t\tLength: " << length << " dx: "<< dx << " dy:" << dy << std::endl;
     }
@@ -66,25 +73,25 @@ public:
 private:
     double xp(double p)
     {
-        return a.X() + dx*p;
+        return xStart + dx*p;
     }
     double yp(double p)
     {
-        return a.Y() + dy*p;
+        return yStart + dy*p;
     }
     double dxp(double p)
     {
-        return 0;
+        return dx;
     }
     double dyp(double p)
     {
-        return 0;
+        return dy;
     }
 
-    double integrate(Point a, Point b) //räknar ut längden av kurvan
+    double integrate(double a, double b) //räknar ut längden av kurvan
     {
-        Point avst = b+(-a);
-        return sqrt(avst.X()*avst.X()+avst.Y()*avst.Y());
+        double sv = 0;
+        return sv;
     }
 };
 
@@ -92,10 +99,11 @@ private:
 class Curve : public Curvebase
 {
 public:
-    Curve(Point a_, Point b_)
+    Curve()
     {
-        a = a_;
-        b = b_;
+        std::cerr << "Curve constructor" << std::endl;
+        pmax = 5;
+        pmin = -10;
     }
 
     ~Curve()
@@ -106,22 +114,30 @@ public:
 private:
     double xp(double p) //finv(p)
     {
-        return 0;
+        if(p>pmax || p<pmin)
+            return 0;
+
+        if(p<=-3)
+        {
+
+            return 1;
+        }
+        return 8945;
     }
     double yp(double p) //f(p)
     {
-        return 0;
+        return 1;
     }
     double dxp(double p)
     {
-        return 0;
+        return 1;
     }
     double dyp(double p)
     {
-        return 0;
+        return 1;
     }
 
-    double integrate(Point a, Point b)
+    double integrate(double a, double b)
     {
         length = 0;
         double h = 0.01;
