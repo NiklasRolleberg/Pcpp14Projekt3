@@ -1,7 +1,6 @@
 #include "Curvebase.hpp"
 #include <cstdlib>
 #include <memory>
-#include "Point.hpp"
 
 class Domain {
 public:

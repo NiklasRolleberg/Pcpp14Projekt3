@@ -1,13 +1,12 @@
 #ifndef CURVEBASE_H
 #define CURVEBASE_H
-#include "Point.hpp"
 
 class Curvebase {
 protected:
     double pmin; //vad är detta?
     double pmax;
-    Point a;
-    Point b;
+    double a;
+    double b;
     //int rev; // orientation of the curve
     double length;
 
@@ -20,7 +19,7 @@ protected:
     virtual double dxp(double p) = 0;
     virtual double dyp(double p) = 0;
 
-    double integrate(Point a, Point b) //arc length integral
+    double integrate(double a, double b) //arc length integral
     {
         //räknar ut längden av kurvan
         return 0;

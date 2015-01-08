@@ -2,7 +2,6 @@
 #include <cmath>
 #include "Domain.hpp"
 #include "Curvebase.hpp"
-#include "Point.hpp"
 
 using namespace std;
 
