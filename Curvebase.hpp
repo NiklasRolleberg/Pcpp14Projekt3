@@ -55,11 +55,40 @@ public:
 
     double x(double s) //arc length parametrization
     {
+        //lös f(p) = integrate(a,p) - s*length
+        double p = s*length;
+        double err, tol=1e-12, p1;
+        int it, maxit=100;
+        it = 0; err = tol + 1;
+        while( err > tol && it < maxit )
+        {
+            p1 = p - (integrate(a,p)-s*length)/( sqrt(dxp(p)+dyp(p))-sqrt(dxp(a)+dyp(a)));
+            err = fabs( p1 - p ); p = p1; it++;
+        }
+        if( err <= tol )
+            return xp(p);
+        else
+            std::cout << "Error, no convergence \n";
         return  0;
     }
+
     double y(double s) //arc length parametrization s e[0,1];
     {
-        return 0; //fel kanske
+        //lös f(p) = integrate(a,p) - s*length
+        double p = s*length;
+        double err, tol=1e-12, p1;
+        int it, maxit=100;
+        it = 0; err = tol + 1;
+        while( err > tol && it < maxit )
+        {
+            p1 = p - (integrate(a,p)-s*length)/( sqrt(dxp(p)+dyp(p))-sqrt(dxp(a)+dyp(a)));
+            err = fabs( p1 - p ); p = p1; it++;
+        }
+        if( err <= tol )
+            return yp(p);
+        else
+            std::cout << "Error, no convergence \n";
+        return  0;
     }
 };
 #endif // CURVEBASE_H
