@@ -130,4 +130,48 @@ public:
         std::cerr << "destructor Line" << std::endl;
     }
 };
+
+/**--------------------------Curve class----------------------*/
+class Curve : public Curvebase
+{
+public:
+    Curve(bool s)
+    {
+        std::cerr << "Curve constructor" << std::endl;
+        pmax = 5;
+        pmin = -10;
+        length = integrate(pmin,pmax);
+        std::cerr <<length << std::endl;
+    }
+
+    ~Curve()
+    {
+        std::cerr << "destructor Curve" << std::endl;
+    }
+
+private:
+    double xp(double p)
+    {
+        return p;
+    }
+    double yp(double p)
+    {
+        if(p<=-3)
+        {
+            return 0.5/(1+exp(-3*p));
+        }
+        return 0.5/(1+exp(-3*(p+6)));
+    }
+    double dxp(double p)
+    {
+        return 1;
+    }
+    double dyp(double p)
+    {
+        double g = (exp(- 3*p - 18) + 1);
+        return (3*exp(- 3*p - 18))/(2*(g*g));
+    }
+};
+
+
 #endif // CURVEBASE_H
