@@ -33,17 +33,21 @@ int main()
     Line L3(H3, H4);
     Line L4(H4, H1);
 
-    /*
+
     std::cout << "Test innan:" << std::endl;
     std::cout << "s=0: " << L1.x(0) << "\ns=0.5: " << L1.x(0.5) << "\ns=1: "<< L1.x(1) << std::endl;
 
     Domain D = Domain(L1, L2, L3, L4);
 
-    int n = 2;
+    int n = 3;
     int m = 3;
-    D.generate_grid(m, n);*/
+    D.generate_grid(m, n);
 
+    bool a = D.writeToFile();
+    //if(!a)
+    //    cerr << "Write to file failed" << std::endl;
 
+    /*
     Line test(Point(0,0),Point(0,1));
     int n = 3;
     double steg = 1./(n-1);
@@ -63,7 +67,7 @@ int main()
         cout << "(" << x[i] << "," << y[i] << ")  ";
     }
     cout << endl;
-
+    */
 
     /*
     Curve test();

@@ -1,7 +1,8 @@
 #include "Curvebase.hpp"
 #include <cstdlib>
 #include <memory>
-#include "Point.hpp"
+#include <cstring>
+#include <cstdio>
 
 class Domain {
 public:
@@ -10,6 +11,7 @@ public:
     Domain &operator=(Domain &d);
     ~Domain();
     void generate_grid (int m, int n);
+    bool writeToFile();
     // more members
 
 private:
@@ -105,10 +107,10 @@ Domain& Domain::operator=(Domain &d)
 
 void Domain::generate_grid(int m, int n) {
     std::cerr << "generate_grid"<< std::endl;
-    if (m <= 0 || n <= 0)
+    if (m <= 1 || n <= 1) // grid 1x1 is trivial
     {
         // Do something meaningful
-        std::cout << "Size cannot be negative";
+        std::cout << "Inner points cannot be negative";
         //exit(0);//?
     }
     else
@@ -123,8 +125,8 @@ void Domain::generate_grid(int m, int n) {
         x_ = new double[m_*n_];
         y_ = new double[m_*n_];
         // Fill x_[] and y_[] with values!
-        double hy = 1./m_;
-        double hx = 1./n_;
+        double hy = 1./(m_-1);
+        double hx = 1./(n_-1);
 
         for(int i=0; i<n_; i++)
         {
@@ -135,11 +137,11 @@ void Domain::generate_grid(int m, int n) {
             }
         }
 
-        std::cout << "x\n";
+        std::cout << "Points:\n";
         for(int i=0;i<m_;i++)
         {
             for(int j=0;j<n_;j++)
-                std::cout << x_[i+j*n_] << " ";
+                std::cout << "("<< x_[i+j*n_] << "," << y_[i+j*n_] << ")  ";
             std::cerr << std::endl;
         }
 
@@ -150,25 +152,24 @@ void Domain::generate_grid(int m, int n) {
 Domain::~Domain()
 {
     std::cerr << "Domain destructor";
-    if (m_ > 0)
-    {
-        delete [] x_;
-        delete [] y_;
-    }
+    delete [] y_;
+    delete [] x_;
 }
 
-//bool check_consistency()
-//{
-//    if ( )
-//        return true;
-//    else
-//        return false;
-//}
+bool check_consistency()
+{
+    std::cerr << "check_consistency" << std::endl;
+    if ( true )
+        return true;
+    else
+        return false;
+}
 
 double Domain::fi1(double s)
 {
     return s;
 }
+
 double Domain::fi2(double s)
 {
     return 1-s;
@@ -196,5 +197,19 @@ double Domain::FIy(double e1, double e2)
                 -fi2(e1)*fi2(e2)*sides[1]->y(1);
 
     return FIy;
+}
+
+bool Domain::writeToFile()
+{
+    FILE *fp;
+    fp =fopen("X.bin","wb");
+    fwrite(x_,sizeof(double),m_*n_,fp);
+    fclose(fp);
+
+    fp =fopen("Y.bin","wb");
+    fwrite(y_,sizeof(double),m_*n_,fp);
+    fclose(fp);
+
+    return true;
 }
 
