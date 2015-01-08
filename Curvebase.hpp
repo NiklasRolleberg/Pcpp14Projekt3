@@ -11,10 +11,6 @@ protected:
     //int rev; // orientation of the curve
     double length;
 
-    double dx;
-    double dy;
-    //(......)
-
     virtual double xp(double p) = 0;
     virtual double yp(double p) = 0;
     virtual double dxp(double p) = 0;
@@ -89,6 +85,49 @@ public:
         else
             std::cout << "Error, no convergence \n";
         return  0;
+
+
+    }
+
+};
+
+/**---------------------------Line class------------------------------*/
+class Line : public Curvebase
+{
+private:
+    double x0, y0, x1, y1;
+    double dx;
+    double dy;
+
+    double xp(double p)
+    {
+        return (1-p)*x0 + p*x1;
+    }
+    double yp(double p)
+    {
+        return (1-p)*y0 + p*y1;
+    }
+    double dxp(double p)
+    {
+        return dx;
+    }
+    double dyp(double p)
+    {
+        return dy;
+    }
+
+public:
+    Line(double x_0, double y_0, double x_1, double y_1)
+    {
+        x0 = x_0; y0 = y_0; x1 = x_1; y1 = y_1;
+        dx = x1-x0;
+        dy = y1-y0;
+        length = sqrt(dy*dy+dx*dx);
+    }
+
+    ~Line()
+    {
+        std::cerr << "destructor Line" << std::endl;
     }
 };
 #endif // CURVEBASE_H
