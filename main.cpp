@@ -27,7 +27,11 @@ int main()
     Point H2(1,0);
     Point H3(1,1);
     Point H4(0,1);
-
+    //Point H1(-10,0);
+    //Point H2(5,0);
+    //Point H3(5,3);
+    //Point H4(-10,3);
+/*
     Line L1(H1, H2);
     Line L2(H2, H3);
     Line L3(H3, H4);
@@ -39,16 +43,16 @@ int main()
 
     Domain D = Domain(L1, L2, L3, L4);
 
-    int n = 3;
-    int m = 3;
+    int m = 4;
+    int n = 4;
     D.generate_grid(m, n);
 
-    bool a = D.writeToFile();
+    //bool a = D.writeToFile();
     //if(!a)
     //    cerr << "Write to file failed" << std::endl;
-
+*/
     /*
-    Line test(Point(0,0),Point(0,1));
+    Line test(Point(0,0),Point(1,1));
     int n = 3;
     double steg = 1./(n-1);
     double x[n];
@@ -69,8 +73,8 @@ int main()
     cout << endl;
     */
 
-    /*
-    Curve test();
+
+    Curve test(1);
     int n = 3;
     double steg = 1./(n-1);
     double x[n];
@@ -82,13 +86,13 @@ int main()
         y[i] = test.y(steg*i);
     }
 
-    cout << "Test: line(0,1)->(0,1)" << std::endl;
+    cout << "points on curve: (-10,0)->(5,0)" << std::endl;
     cout << "points on the line: ";
     for(int i=0;i<n;i++)
     {
-        cout << "(" << x[i] << "," << y[i] << ")  ";
+        cout << "(" << x[i] << "," << y[i] << ")" << std::endl;
     }
     cout << endl;
-    */
+
 	return 0;
 }

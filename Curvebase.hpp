@@ -5,9 +5,9 @@
 class Curvebase {
 protected:
     double pmin = 0; //vad är detta?
-    double pmax = 0;;
-    double a;
-    double b;
+    double pmax = 0;
+    //double a;
+    //double b;
 
     double xStart;
     double yStart;
@@ -30,13 +30,57 @@ public:
 
     double x(double s) //arc length parametrization
     {
-        //return  xp(s*length);
-        return  xp(s*length);
+        double tol = length/1000;
+        double target = s*length;
+        double a = pmin;
+        double b = pmax;
+        double current = (b-a)/2;
+
+        int max = 10;
+        double tempLength = integrate(pmin,current);
+        while(std::abs(tempLength-target)>tol)
+        {
+            if(tempLength>target)
+            {
+                b = current;
+            }
+            else
+            {
+                a = current;
+            }
+            current = a+ ((b-a)/2);
+            tempLength = integrate(pmin,current);
+            //std::cerr << "Current: " << current << "\t tempL: " << tempLength << "\t target: " << target << " [" << a << " , " << b << "]" << std::endl;
+        }
+
+        return xp(current);
     }
     double y(double s) //arc length parametrization s e[0,1];
     {
-        //return yp(s*length); //fel kanske
-        return yp(s*length); //fel kanske
+        double tol = length/1000;
+        double target = s*length;
+        double a = pmin;
+        double b = pmax;
+        double current = (b-a)/2;
+
+        int max = 10;
+        double tempLength = integrate(pmin,current);
+        while(std::abs(tempLength-target)>tol)
+        {
+            if(tempLength>target)
+            {
+
+                b = current;
+            }
+            else
+            {
+                a = current;
+            }
+            current = a+ ((b-a)/2);
+            tempLength = integrate(pmin,current);
+            //std::cerr << "Current: " << current << "\t tempL: " << tempLength << "\t target: " << target << " [" << a << " , " << b << "]" << std::endl;
+        }
+        return yp(current);
     }
 };
 
@@ -52,6 +96,8 @@ public:
     {
         std::cerr << "line constructor" << std::endl;
 
+        pmin = 0;
+        pmax = 1;
 
         xStart = a_.X();
         yStart = a_.Y();
@@ -62,7 +108,11 @@ public:
         dx = avst.X();
         dy = avst.Y();
 
-        std::cerr << "\t\tLength: " << length << " dx: "<< dx << " dy:" << dy << std::endl;
+        /*std::cerr << "\t\tLength: " << length << " dx: "<< dx << " dy:" << dy << std::endl;
+        std::cerr << "integrate test" << std::endl;
+        std::cerr << "0->0: " << integrate(0,0) << std::endl;
+        std::cerr << "0->0.5: " << integrate(0,0.5) << std::endl;
+        std::cerr << "0->1: " << integrate(0,1) << std::endl;*/
     }
 
     ~Line()
@@ -90,8 +140,10 @@ private:
 
     double integrate(double a, double b) //räknar ut längden av kurvan
     {
-        double sv = 0;
-        return sv;
+
+        //double alength = a*sqrt(dx*dx+dy*dy); //length 0->a
+        double blength = b*length;//sqrt(dx*dx+dy*dy); //length 0->b
+        return blength;//-alength;
     }
 };
 
@@ -99,11 +151,13 @@ private:
 class Curve : public Curvebase
 {
 public:
-    Curve()
+    Curve(int j)
     {
         std::cerr << "Curve constructor" << std::endl;
         pmax = 5;
         pmin = -10;
+
+        length = integrate(pmin,pmax);
     }
 
     ~Curve()
@@ -114,19 +168,15 @@ public:
 private:
     double xp(double p) //finv(p)
     {
-        if(p>pmax || p<pmin)
-            return 0;
-
-        if(p<=-3)
-        {
-
-            return 1;
-        }
-        return 8945;
+        return p;
     }
     double yp(double p) //f(p)
     {
-        return 1;
+        if(p<=-3)
+        {
+            return 0.5/(1+exp(-3*p));
+        }
+        return 0.5/(1+exp(-3*(p+6)));
     }
     double dxp(double p)
     {
@@ -134,19 +184,20 @@ private:
     }
     double dyp(double p)
     {
-        return 1;
+        double g = (exp(- 3*p - 18) + 1);
+        return (3*exp(- 3*p - 18))/(2*(g*g));
     }
 
     double integrate(double a, double b)
     {
-        length = 0;
+        double l = 0;
         double h = 0.01;
-        double s = 0;
-        while (s<=1)
+        double s = a;
+        while (s<=b)
         {
             double xx = dxp(s);
             double yy = dyp(s);
-            length += sqrt(xx*xx + yy*yy);
+            l += sqrt(xx*xx + yy*yy);
             s+=h;
         }
     }

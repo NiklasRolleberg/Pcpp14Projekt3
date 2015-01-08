@@ -110,7 +110,7 @@ void Domain::generate_grid(int m, int n) {
     if (m <= 1 || n <= 1) // grid 1x1 is trivial
     {
         // Do something meaningful
-        std::cout << "Inner points cannot be negative";
+        std::cout << "number of inner points cannot be negative";
         //exit(0);//?
     }
     else
@@ -142,7 +142,7 @@ void Domain::generate_grid(int m, int n) {
         {
             for(int j=0;j<n_;j++)
                 std::cout << "("<< x_[i+j*n_] << "," << y_[i+j*n_] << ")  ";
-            std::cerr << std::endl;
+            std::cout << std::endl;
         }
 
     }
