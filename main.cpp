@@ -2,6 +2,7 @@
 #include <cmath>
 #include "Domain.hpp"
 #include "Curvebase.hpp"
+//#include <cstdio>
 
 using namespace std;
 
@@ -36,12 +37,33 @@ int main()
     //Line L3(-10, 3, -10, 0);
     Line L3(-10, 0, -10, 3);
 
-    //Domain D = Domain(C, L1, L2, L3);
-    Domain D = Domain(L0, L1, L2, L3);
+    Domain D = Domain(C, L1, L2, L3);
+    //Domain D = Domain(L0, L1, L2, L3);
 
     D.generate_grid(13, 13);
 
     D.writeToFile();
+
+    /*TEST AV CURVE!
+    int N= 100;
+    double* tempX = new double[N];
+    double* tempY = new double[N];
+
+    for(int i=0;i<N;++i)
+    {
+        tempX[i] = C.x(i*(1./(N-1)));
+        tempY[i] = C.y(i*(1./(N-1)));
+    }
+
+    FILE *fp;
+    fp =fopen("testX.bin","wb");
+    fwrite(tempX,sizeof(double),N,fp);
+    fclose(fp);
+
+    fp =fopen("testY.bin","wb");
+    fwrite(tempY,sizeof(double),N,fp);
+    fclose(fp);
+    */
 
 	return 0;
 }
