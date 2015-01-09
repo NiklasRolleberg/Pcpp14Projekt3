@@ -1,6 +1,7 @@
 #include "Curvebase.hpp"
 #include <cstdlib>
 #include <memory>
+#include <cstdio>
 
 class Domain {
 public:
@@ -9,6 +10,7 @@ public:
     Domain &operator=(Domain &d);
     ~Domain();
     void generate_grid (int m, int n);
+    void writeToFile();
     // more members
 
 private:
@@ -195,5 +197,17 @@ double Domain::FIy(double e1, double e2)
                 -fi2(e1)*fi2(e2)*sides[1]->y(1);
 
     return FIy;
+}
+
+void Domain::writeToFile()
+{
+    FILE *fp;
+    fp =fopen("X.bin","wb");
+    fwrite(x_,sizeof(double),m_*n_,fp);
+    fclose(fp);
+
+    fp =fopen("Y.bin","wb");
+    fwrite(y_,sizeof(double),m_*n_,fp);
+    fclose(fp);
 }
 
