@@ -6,8 +6,8 @@ class Curvebase {
 protected:
     double pmin; //vad är detta?
     double pmax;
-    double a;
-    double b;
+    //double a;
+    //double b;
     //int rev; // orientation of the curve
     double length;
 
@@ -52,15 +52,23 @@ public:
     double x(double s) //arc length parametrization
     {
         //lös f(p) = integrate(a,p) - s*length
-        double p = s*length;
         double err, tol=1e-12, p1;
         int it, maxit=100;
         it = 0; err = tol + 1;
+
+        double p = pmin + s*((pmax-pmin)/2);
+        std::cerr << "pstart= " << p << std::endl;
         while( err > tol && it < maxit )
         {
-            p1 = p - (integrate(a,p)-s*length)/( sqrt(dxp(p)+dyp(p))-sqrt(dxp(a)+dyp(a)));
+            double funktion = integrate(pmin,p)-s*length;
+            double derrivata = sqrt( dxp(p)*dxp(p) + dyp(p)*dyp(p) ) - sqrt( dxp(pmin)*dxp(pmin) + dyp(pmin)*dyp(pmin) );
+            p1 = p - funktion/derrivata;
             err = fabs( p1 - p ); p = p1; it++;
+
+            std::cerr << "Newtons metod. f= " << funktion << "\t f'= " << derrivata << "\t p = " << p << std::endl;
+
         }
+
         if( err <= tol )
             return xp(p);
         else
@@ -70,20 +78,6 @@ public:
 
     double y(double s) //arc length parametrization s e[0,1];
     {
-        //lös f(p) = integrate(a,p) - s*length
-        double p = s*length;
-        double err, tol=1e-12, p1;
-        int it, maxit=100;
-        it = 0; err = tol + 1;
-        while( err > tol && it < maxit )
-        {
-            p1 = p - (integrate(a,p)-s*length)/( sqrt(dxp(p)+dyp(p))-sqrt(dxp(a)+dyp(a)));
-            err = fabs( p1 - p ); p = p1; it++;
-        }
-        if( err <= tol )
-            return yp(p);
-        else
-            std::cout << "Error, no convergence \n";
         return  0;
 
 
@@ -123,6 +117,8 @@ public:
         dx = x1-x0;
         dy = y1-y0;
         length = sqrt(dy*dy+dx*dx);
+        pmin = 0;
+        pmax = 1;
     }
 
     ~Line()
