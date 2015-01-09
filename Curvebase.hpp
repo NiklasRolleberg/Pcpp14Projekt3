@@ -53,7 +53,7 @@ public:
     {
         //lös f(p) = integrate(a,p) - s*length
         double err, tol=1e-12, p1;
-        int it, maxit=10;
+        int it, maxit=100;
         it = 0; err = tol + 1;
 
         double p = pmin + s*((pmax-pmin)/2);
@@ -92,7 +92,7 @@ public:
 
         //lös f(p) = integrate(a,p) - s*length
         double err, tol=1e-12, p1;
-        int it, maxit=10;
+        int it, maxit=100;
         it = 0; err = tol + 1;
 
         double p = pmin + s*((pmax-pmin)/2);
@@ -185,9 +185,9 @@ private:
     {
         if(p<=-3)
         {
-            return 0.5/(1+exp(-3*p));
+            return 0.5/(1+exp(-3*(p+6)));
         }
-        return 0.5/(1+exp(-3*(p+6)));
+        return 0.5/(1+exp(3*p));
     }
     double dxp(double p)
     {
@@ -201,8 +201,8 @@ private:
             return (3*exp(- 3*p - 18))/(2*d*d);
         }
 
-        double d = (exp(-3*p) + 1);
-        return (3*exp(-3*p))/(2*d*d);
+        double d = (exp(3*p) + 1);
+        return -(3*exp(3*p))/(2*d*d);
     }
 };
 
