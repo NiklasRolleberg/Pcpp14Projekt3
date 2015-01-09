@@ -133,7 +133,8 @@ void Domain::generate_grid(int m, int n) {
             for(int j=0; j<m_; j++)
             {
                 x_[i+j*n_] = FIx(hx*i, hy*i);
-                y_[i+j*n_] = FIy(hx*i, hy*i);
+                y_[i*n_+j] = FIy(hx*i, hy*i);
+
             }
         }
 

@@ -1,9 +1,11 @@
+m = 13; n = 13;
+
 fileID = fopen('X.bin');
-X = fread(fileID, [4,4], 'double')
+X = fread(fileID, [m,n], 'double')
 fclose(fileID);
 
 fileID = fopen('Y.bin');
-Y = fread(fileID, [4,4], 'double')
+Y = fread(fileID, [m,n], 'double')
 fclose(fileID);
 
-%plotmatrix(X,Y)
+plot(X(:),Y(:), '*')
