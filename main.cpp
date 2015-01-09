@@ -28,6 +28,15 @@ int main()
     for(int i=0;i<n;i++)
         std::cout << "\n\ns=" << i*steg << " point: (" << test.x(i*steg) << "," << test.y(i*steg) << ")" << std::endl;
 
+    Curve C(true);
+    Line L1(5, 0, 5, 3);
+    Line L2(5, 3, -10, 3);
+    Line L3(-10, 3, -10, 0);
+
+    Domain D = Domain(C, L1, L2, L3);
+
+    D.generate_grid(2, 3);
+
 
 	return 0;
 }
