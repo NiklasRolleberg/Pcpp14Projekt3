@@ -28,15 +28,20 @@ int main()
     for(int i=0;i<n;i++)
         std::cout << "\n\ns=" << i*steg << " point: (" << test.x(i*steg) << "," << test.y(i*steg) << ")" << std::endl;
 
-    Curve C(true);
+    //Curve C(true);
+    Line L0(-10, 0, 5, 0);
     Line L1(5, 0, 5, 3);
-    Line L2(5, 3, -10, 3);
-    Line L3(-10, 3, -10, 0);
+    //Line L2(5, 3, -10, 3);
+    Line L2(-10, 3, 5, 3);
+    //Line L3(-10, 3, -10, 0);
+    Line L3(-10, 0, -10, 3);
 
-    Domain D = Domain(C, L1, L2, L3);
+    //Domain D = Domain(C, L1, L2, L3);
+    Domain D = Domain(L0, L1, L2, L3);
 
-    D.generate_grid(2, 3);
+    D.generate_grid(4, 4);
 
+    D.writeToFile();
 
 	return 0;
 }
