@@ -53,20 +53,19 @@ public:
     {
         //lös f(p) = integrate(a,p) - s*length
         double err, tol=1e-12, p1;
-        int it, maxit=100;
+        int it, maxit=10;
         it = 0; err = tol + 1;
 
         double p = pmin + s*((pmax-pmin)/2);
-        std::cerr << "pstart= " << p << std::endl;
+        //std::cerr << "pstart= " << p << std::endl;
         while( err > tol && it < maxit )
         {
             double funktion = integrate(pmin,p)-s*length;
-            double derrivata = sqrt( dxp(p)*dxp(p) + dyp(p)*dyp(p) ) - sqrt( dxp(pmin)*dxp(pmin) + dyp(pmin)*dyp(pmin) );
-            p1 = p - funktion/derrivata;
+            double derrivata = 1/((pmax-pmin)/100) * (integrate(pmin,p + ((pmax-pmin)/100)) - integrate(pmin,p));
+            p1 = p - (funktion/derrivata);
             err = fabs( p1 - p ); p = p1; it++;
 
-            std::cerr << "Newtons metod. f= " << funktion << "\t f'= " << derrivata << "\t p = " << p << std::endl;
-
+            //std::cerr << "Newtons metod. f= " << funktion << "\t f'= " << derrivata << "\t p = " << p << std::endl;
         }
 
         if( err <= tol )
@@ -78,11 +77,42 @@ public:
 
     double y(double s) //arc length parametrization s e[0,1];
     {
+        /*
+        std::cerr << "\nfUNKTIONS TEST!" << std::endl;
+
+        std::cerr << "\nintegrate(pmin,pmax): " << integrate(pmin,pmax) << std::endl;
+        std::cerr << "integrate(pmin,pmin+(pmax-pmin)/2): " << integrate(pmin,pmin+(pmax-pmin)/2) << std::endl;
+
+        std::cerr << "\nxp((pmax-pmin)/2): " << xp((pmax-pmin)/2) << std::endl;
+        std::cerr << "yp((pmax-pmin)/2): " << yp((pmax-pmin)/2) << std::endl;
+
+        std::cerr << "\ndxp((pmax-pmin)/2): " << dxp((pmax-pmin)/2) << std::endl;
+        std::cerr << "dyp((pmax-pmin)/2): " << dyp((pmax-pmin)/2) << std::endl;
+        */
+
+        //lös f(p) = integrate(a,p) - s*length
+        double err, tol=1e-12, p1;
+        int it, maxit=10;
+        it = 0; err = tol + 1;
+
+        double p = pmin + s*((pmax-pmin)/2);
+        //std::cerr << "pstart= " << p << std::endl;
+        while( err > tol && it < maxit )
+        {
+            double funktion = integrate(pmin,p)-s*length;
+            double derrivata = 1/((pmax-pmin)/100) * (integrate(pmin,p + ((pmax-pmin)/100)) - integrate(pmin,p));
+            p1 = p - (funktion/derrivata);
+            err = fabs( p1 - p ); p = p1; it++;
+
+            //std::cerr << "Newtons metod. f= " << funktion << "\t f'= " << derrivata << "\t p = " << p << std::endl;
+        }
+
+        if( err <= tol )
+            return yp(p);
+        else
+            std::cout << "Error, no convergence \n";
         return  0;
-
-
     }
-
 };
 
 /**---------------------------Line class------------------------------*/
@@ -117,6 +147,7 @@ public:
         dx = x1-x0;
         dy = y1-y0;
         length = sqrt(dy*dy+dx*dx);
+        std::cerr << "line length: " << length << std::endl;
         pmin = 0;
         pmax = 1;
     }
@@ -137,7 +168,7 @@ public:
         pmax = 5;
         pmin = -10;
         length = integrate(pmin,pmax);
-        std::cerr <<length << std::endl;
+        std::cerr << "Curve length " << length << std::endl;
     }
 
     ~Curve()
@@ -164,8 +195,14 @@ private:
     }
     double dyp(double p)
     {
-        double g = (exp(- 3*p - 18) + 1);
-        return (3*exp(- 3*p - 18))/(2*(g*g));
+        if(p<=-3)
+        {
+            double d = (exp(- 3*p - 18) + 1);
+            return (3*exp(- 3*p - 18))/(2*d*d);
+        }
+
+        double d = (exp(-3*p) + 1);
+        return (3*exp(-3*p))/(2*d*d);
     }
 };
 
