@@ -124,8 +124,8 @@ void Domain::generate_grid(int m, int n) {
         x_ = new double[m_*n_];
         y_ = new double[m_*n_];
         // Fill x_[] and y_[] with values!
-        double hy = 1./m_;
-        double hx = 1./n_;
+        double hy = 1./(m_-1);
+        double hx = 1./(n_-1);
 
         for(int i=0; i<n_; i++)
         {
