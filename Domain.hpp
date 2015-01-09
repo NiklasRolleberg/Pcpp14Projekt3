@@ -31,8 +31,8 @@ private:
 Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
 {
 
-    std::cout << "Test innan i domain:" << std::endl;
-    std::cout << "s=0: " << s1.x(0) << "\ns=0.5: " << s1.x(0.5) << "\ns=1: "<< s1.x(1) << std::endl;
+    //std::cout << "Test innan i domain:" << std::endl;
+    //std::cout << "s=0: " << s1.x(0) << "\ns=0.5: " << s1.x(0.5) << "\ns=1: "<< s1.x(1) << std::endl;
 
     //std::cerr <<"\n\nSize Curvebase :"<< sizeof(Curvebase) << "\nSize Line: "<< sizeof(Line) << "\nSize s1:" << sizeof(s1) << std::endl;
 
@@ -43,8 +43,8 @@ Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
     sides[2] = &s3;
     sides[3] = &s4;
 
-    std::cout << "Test efter i domain:" << std::endl;
-    std::cout << "s=0: " << sides[0]->x(0) << "\ns=0.5: " << sides[0]->x(0.5) << "\ns=1: "<< sides[0]->x(1) << std::endl;
+    //std::cout << "Test efter i domain:" << std::endl;
+    //std::cout << "s=0: " << sides[0]->x(0) << "\ns=0.5: " << sides[0]->x(0.5) << "\ns=1: "<< sides[0]->x(1) << std::endl;
 
    // if (~check_consistency())
      //   sides[0] = sides[1] = sides[2] = sides[3] = nullptr;
@@ -123,6 +123,7 @@ void Domain::generate_grid(int m, int n) {
         m_ = m; n_ = n;
         x_ = new double[m_*n_];
         y_ = new double[m_*n_];
+
         // Fill x_[] and y_[] with values!
         double hy = 1./(m_-1);
         double hx = 1./(n_-1);
@@ -131,8 +132,8 @@ void Domain::generate_grid(int m, int n) {
         {
             for(int j=0; j<m_; j++)
             {
-                x_[i+j*n] = FIx(hx*i, hy*i);
-                y_[i+j*n] = FIy(hx*i, hy*i);
+                x_[i+j*n_] = FIx(hx*i, hy*i);
+                y_[i+j*n_] = FIy(hx*i, hy*i);
             }
         }
 
@@ -143,7 +144,6 @@ void Domain::generate_grid(int m, int n) {
                 std::cout << x_[i+j*n_] << " ";
             std::cerr << std::endl;
         }
-
     }
 }
 
@@ -177,10 +177,10 @@ double Domain::fi2(double s)
 
 double Domain::FIx(double e1, double e2)
 {
-    std::cerr << "FIx" << std::endl;
-    double FIx = fi1(e1)*sides[3]->x(e2) + fi2(e1)*sides[1]->x(e2) + fi1(e2)*sides[0]->x(e1) + fi2(e2)*sides[2]->x(e1)
+    //std::cerr << "FIx" << std::endl;
+    double FIx = fi1(e1)*sides[0]->x(e2) + fi2(e1)*sides[2]->x(e2) + fi1(e2)*sides[3]->x(e1) + fi2(e2)*sides[1]->x(e1)
                 -fi1(e1)*fi1(e2)*sides[0]->x(0)
-                -fi2(e1)*fi1(e2)*sides[1]->x(0)
+                -fi2(e1)*fi1(e2)*sides[2]->x(0)
                 -fi2(e1)*fi1(e2)*sides[0]->x(1)
                 -fi2(e1)*fi2(e2)*sides[1]->x(1);
 
@@ -189,13 +189,12 @@ double Domain::FIx(double e1, double e2)
 
 double Domain::FIy(double e1, double e2)
 {
-    std::cerr << "FIy"<< std::endl;
-    double FIy = fi1(e1)*sides[3]->y(e2) + fi2(e1)*sides[1]->y(e2) + fi1(e2)*sides[0]->y(e1) + fi2(e2)*sides[2]->y(e1)
+    //std::cerr << "FIy"<< std::endl;
+    double FIy = fi1(e1)*sides[0]->y(e2) + fi2(e1)*sides[2]->y(e2) + fi1(e2)*sides[3]->y(e1) + fi2(e2)*sides[1]->y(e1)
                 -fi1(e1)*fi1(e2)*sides[0]->y(0)
-                -fi2(e1)*fi1(e2)*sides[1]->y(0)
+                -fi2(e1)*fi1(e2)*sides[2]->y(0)
                 -fi2(e1)*fi1(e2)*sides[0]->y(1)
                 -fi2(e1)*fi2(e2)*sides[1]->y(1);
-
     return FIy;
 }
 
