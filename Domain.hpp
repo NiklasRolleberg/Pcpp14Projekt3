@@ -136,8 +136,8 @@ void Domain::generate_grid(int m, int n) {
                 x_[j+i*m_] = -10; //ett hörn
                 y_[j+i*m_] = 0;
                 */
-                x_[j+i*m_] = FIx(hx*i, hx*i);
-                y_[j+i*m_] = FIy(hy*j, hy*j);
+                x_[j+i*m_] = FIx(hx*i, hy*j);
+                y_[j+i*m_] = FIy(hx*i, hy*j);
 
                 //if(j==0)
                 //{
@@ -209,24 +209,22 @@ double Domain::fi2(double s)
 
 double Domain::FIx(double e1, double e2)
 {
-    //std::cerr << "FIx" << std::endl;
-    double FIx = fi1(e1)*sides[0]->x(e2) + fi2(e1)*sides[2]->x(e2) + fi1(e2)*sides[3]->x(e1) + fi2(e2)*sides[1]->x(e1)
+    double FIx = fi1(e1)*sides[3]->x(e2) + fi2(e1)*sides[1]->x(e2) + fi1(e2)*sides[0]->x(e1) + fi2(e2)*sides[2]->x(e1)
                 -fi1(e1)*fi1(e2)*sides[0]->x(0)
-                -fi2(e1)*fi1(e2)*sides[2]->x(0)
-                -fi2(e1)*fi1(e2)*sides[0]->x(1)
-                -fi2(e1)*fi2(e2)*sides[1]->x(1);
-
+                -fi2(e1)*fi1(e2)*sides[1]->x(1)
+                -fi1(e1)*fi2(e2)*sides[2]->x(0)
+                -fi2(e1)*fi2(e2)*sides[1]->x(0);
     return FIx;
 }
 
 double Domain::FIy(double e1, double e2)
 {
     //std::cerr << "FIy"<< std::endl;
-    double FIy = fi1(e1)*sides[0]->y(e2) + fi2(e1)*sides[2]->y(e2) + fi1(e2)*sides[3]->y(e1) + fi2(e2)*sides[1]->y(e1)
+    double FIy = fi1(e1)*sides[3]->y(e2) + fi2(e1)*sides[1]->y(e2) + fi1(e2)*sides[0]->y(e1) + fi2(e2)*sides[2]->y(e1)
                 -fi1(e1)*fi1(e2)*sides[0]->y(0)
-                -fi2(e1)*fi1(e2)*sides[2]->y(0)
-                -fi2(e1)*fi1(e2)*sides[0]->y(1)
-                -fi2(e1)*fi2(e2)*sides[1]->y(1);
+                -fi2(e1)*fi1(e2)*sides[1]->y(1)
+                -fi1(e1)*fi2(e2)*sides[2]->y(0)
+                -fi2(e1)*fi2(e2)*sides[1]->y(0);
     return FIy;
 }
 

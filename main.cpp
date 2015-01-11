@@ -30,17 +30,17 @@ int main()
         std::cout << "\n\ns=" << i*steg << " point: (" << test.x(i*steg) << "," << test.y(i*steg) << ")" << std::endl;
     */
     Curve C(true);
-    Line L0(-10, 0, 5, 0);
-    Line L1(5, 0, 5, 3);
+    //Line L0(-10, 0, 5, 0);
+    Line L1(5, 3, 5, 0);
     //Line L2(5, 3, -10, 3);
     Line L2(-10, 3, 5, 3);
     //Line L3(-10, 3, -10, 0);
-    Line L3(-10, 0, -10, 3);
+    Line L3(-10, 3, -10, 0);
 
     Domain D = Domain(C, L1, L2, L3);
     //Domain D = Domain(L0, L1, L2, L3);
 
-    D.generate_grid(5, 5);
+    D.generate_grid(10, 9);
 
     D.writeToFile();
 
