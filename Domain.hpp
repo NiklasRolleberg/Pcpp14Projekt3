@@ -132,25 +132,26 @@ void Domain::generate_grid(int m, int n) {
         {
             for(int j=0; j<m_; j++)
             {
+                /*
                 x_[j+i*m_] = -10; //ett hörn
                 y_[j+i*m_] = 0;
-                /*
-                x_[j+i*m_] = FIx(hx*i, hy*j);
-                y_[j+i*m_] = FIy(hx*i, hy*j);
-
-                if(j==0)
-                {
-                    std::cerr << "j==0 -> lower curve, hx = " << hx*i << std::endl;
-                    std::cerr << "x= " << x_[j+i*m_] <<"\ty = " <<  y_[j+i*m_] << std::endl;
-                }
                 */
+                x_[j+i*m_] = FIx(hx*i, hx*i);
+                y_[j+i*m_] = FIy(hy*j, hy*j);
+
+                //if(j==0)
+                //{
+                //    std::cerr << "j==0 -> lower curve, hx = " << hx*i << std::endl;
+                //    std::cerr << "x= " << x_[j+i*m_] <<"\ty = " <<  y_[j+i*m_] << std::endl;
+                //}
+
             }
         }
 
-        double stegX = 1./(n_-1); //steg för kurvor i x-led (0,2)
-        double stegY = 1./(n_-1); //steg för kurvor i y-led (1,3)
+        //double stegX = 1./(n_-1); //steg för kurvor i x-led (0,2)
+        //double stegY = 1./(n_-1); //steg för kurvor i y-led (1,3)
 
-        /**Bara spara sidorna*/
+        /**Bara spara sidorna*//*
         for(int i=0;i<n_;i++)
             for(int j=0;j<m_;j++)
             {
@@ -174,7 +175,7 @@ void Domain::generate_grid(int m, int n) {
                     x_[j+i*m] = sides[3]->x(stegY*j);
                     y_[j+i*m] = sides[3]->y(stegY*j);
                 }
-            }
+            }*/
     }
 }
 
