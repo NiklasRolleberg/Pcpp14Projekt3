@@ -40,7 +40,7 @@ int main()
     Domain D = Domain(C, L1, L2, L3);
     //Domain D = Domain(L0, L1, L2, L3);
 
-    D.generate_grid(10, 9);
+    D.generate_grid(20, 50);
 
     D.writeToFile();
 
