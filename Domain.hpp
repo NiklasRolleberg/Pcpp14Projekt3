@@ -12,14 +12,13 @@ public:
     void generate_grid (int m, int n);
     void writeToFile();
     // more members
-    bool check_consistency();
 private:
     //std::array<Curvebase, 10> sides;
     Curvebase* sides[4];
     //std::shared_ptr<Curvebase> sides[4];
     double *x_, *y_;
     int m_, n_;
-    //bool check_consistency();
+    bool check_consistency();
     // more members
     double fi1(double s);
     double fi2(double s);
@@ -35,9 +34,11 @@ Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
     sides[2] = &s3;
     sides[3] = &s4;
 
-   if (~check_consistency())
-        exit(0);
-        //sides[0] = sides[1] = sides[2] = sides[3] = nullptr;
+   if (!check_consistency())
+   {
+       std::cerr << "FEL!" << std::endl;
+       exit(0);
+   }
 
     m_ = n_ = 0;
     x_ = y_ = nullptr;
@@ -143,16 +144,22 @@ Domain::~Domain()
 
 bool Domain::check_consistency()
 {
+    /*
     std::cout << "Check_constistency" << std::endl;
     std::cout << "Line 0: (" << sides[0]->x(0) << " , " << sides[0]->y(0) << ") \t (" << sides[0]->x(1) << " , " << sides[0]->y(1) << ")" << std::endl;
     std::cout << "Line 1: (" << sides[1]->x(0) << " , " << sides[1]->y(0) << ") \t (" << sides[1]->x(1) << " , " << sides[1]->y(1) << ")" << std::endl;
     std::cout << "Line 2: (" << sides[2]->x(0) << " , " << sides[2]->y(0) << ") \t (" << sides[2]->x(1) << " , " << sides[2]->y(1) << ")" << std::endl;
     std::cout << "Line 3: (" << sides[3]->x(0) << " , " << sides[3]->y(0) << ") \t (" << sides[3]->x(1) << " , " << sides[3]->y(1) << ")" << std::endl;
+    */
 
-    if ( true )
-        return true;
-    else
-        return false;
+    if(fabs(sides[0]->x(0)-sides[3]->x(1))<10e-3 && fabs(sides[0]->y(0)-sides[3]->y(1))<10e-3 &&
+       fabs(sides[0]->x(1)-sides[1]->x(1))<10e-3 && fabs(sides[0]->y(1)-sides[1]->y(1))<10e-3 &&
+       fabs(sides[1]->x(0)-sides[2]->x(1))<10e-3 && fabs(sides[1]->y(0)-sides[2]->y(1))<10e-3 &&
+       fabs(sides[3]->x(0)-sides[2]->x(0))<10e-3 && fabs(sides[3]->y(0)-sides[2]->y(0))<10e-3 )
+       {
+           return true;
+       }
+    return false;
 }
 
 double Domain::fi1(double s)
