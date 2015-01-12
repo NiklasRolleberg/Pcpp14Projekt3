@@ -11,22 +11,25 @@ public:
     ~Domain();
     void generate_grid (int m, int n);
     void writeToFile();
-    // more members
 private:
-    //std::array<Curvebase, 10> sides;
     Curvebase* sides[4];
-    //std::shared_ptr<Curvebase> sides[4];
     double *x_, *y_;
     int m_, n_;
     bool check_consistency();
-    // more members
     double fi1(double s);
     double fi2(double s);
     double FIx(double e1, double e2);
     double FIy(double e1, double e2);
 };
 
-//Constructor
+/**
+ * s1: bottom curve
+ * s2: right curve
+ * s3: top curve
+ * s4: right curve
+ * The direction for s1 and s3 should go from left to right
+ * The direction for s2 and s4 should go from top to bottom
+ */
 Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
 {
     sides[0] = &s1;
@@ -44,7 +47,7 @@ Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
     x_ = y_ = nullptr;
 }
 
-//Copy constructor
+/** Copy constructor */
 Domain::Domain(const Domain& d) :
     m_(d.m_), n_(d.n_), x_(NULL), y_(NULL)
     {
@@ -60,7 +63,7 @@ Domain::Domain(const Domain& d) :
         }
     }
 
-
+/** =-operator */
 Domain& Domain::operator=(Domain &d)
 {
     if (this != &d)
@@ -96,13 +99,13 @@ Domain& Domain::operator=(Domain &d)
     }
 }
 
+/** Generates a grid with x and y points */
 void Domain::generate_grid(int m, int n) {
     std::cerr << "generate_grid"<< std::endl;
     if (m <= 0 || n <= 0)
     {
-        // Do something meaningful
         std::cout << "Size cannot be negative";
-        //exit(0);//?
+        exit(0);
     }
     else
     {
@@ -131,10 +134,9 @@ void Domain::generate_grid(int m, int n) {
     }
 }
 
-
 Domain::~Domain()
 {
-    std::cerr << "Domain destructor" << std::endl;;
+    //std::cerr << "Domain destructor" << std::endl;;
     if (m_ > 0)
     {
         delete [] x_;
@@ -142,16 +144,11 @@ Domain::~Domain()
     }
 }
 
+/**
+ * Checks if the domain is cohesive and if the lines have the correct directions
+ */
 bool Domain::check_consistency()
 {
-    /*
-    std::cout << "Check_constistency" << std::endl;
-    std::cout << "Line 0: (" << sides[0]->x(0) << " , " << sides[0]->y(0) << ") \t (" << sides[0]->x(1) << " , " << sides[0]->y(1) << ")" << std::endl;
-    std::cout << "Line 1: (" << sides[1]->x(0) << " , " << sides[1]->y(0) << ") \t (" << sides[1]->x(1) << " , " << sides[1]->y(1) << ")" << std::endl;
-    std::cout << "Line 2: (" << sides[2]->x(0) << " , " << sides[2]->y(0) << ") \t (" << sides[2]->x(1) << " , " << sides[2]->y(1) << ")" << std::endl;
-    std::cout << "Line 3: (" << sides[3]->x(0) << " , " << sides[3]->y(0) << ") \t (" << sides[3]->x(1) << " , " << sides[3]->y(1) << ")" << std::endl;
-    */
-
     if(fabs(sides[0]->x(0)-sides[3]->x(1))<10e-3 && fabs(sides[0]->y(0)-sides[3]->y(1))<10e-3 &&
        fabs(sides[0]->x(1)-sides[1]->x(1))<10e-3 && fabs(sides[0]->y(1)-sides[1]->y(1))<10e-3 &&
        fabs(sides[1]->x(0)-sides[2]->x(1))<10e-3 && fabs(sides[1]->y(0)-sides[2]->y(1))<10e-3 &&
@@ -192,6 +189,9 @@ double Domain::FIy(double e1, double e2)
     return FIy;
 }
 
+/**
+ * Writes the x and y points of the grid to a .bin file
+ */
 void Domain::writeToFile()
 {
     FILE *fp;

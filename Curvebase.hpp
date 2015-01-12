@@ -4,11 +4,8 @@
 
 class Curvebase {
 protected:
-    double pmin; //vad är detta?
+    double pmin;
     double pmax;
-    //double a;
-    //double b;
-    //int rev; // orientation of the curve
     double length;
 
     virtual double xp(double p) = 0;
@@ -17,7 +14,8 @@ protected:
     virtual double dyp(double p) = 0;
 
 
-    double integrate(double a, double b) //arc length integral
+    /** arc length integral - calculates the arc length for a curve */
+    double integrate(double a, double b)
     {
         return adaptiveSimpsons(a, b, 0.000000001, 10);
     }
@@ -49,7 +47,8 @@ protected:
 public:
     Curvebase() {}
 
-    double x(double s) //lös f(p) = integrate(a,p) - s*length
+    /** Arc length parameterization, 0 <= s <= 1 */
+    double x(double s)
     {
         double err, tol=1e-12, p1;
         int it, maxit=100;
@@ -71,7 +70,8 @@ public:
         return  0;
     }
 
-    double y(double s) //arc length parametrization s e[0,1];
+    /** Arc length parameterization, 0 <= s <= 1 */
+    double y(double s)
     {
         double err, tol=1e-12, p1;
         int it, maxit=100;
@@ -94,7 +94,9 @@ public:
     }
 };
 
-/**---------------------------Line class------------------------------*/
+/**---------------------------Line class------------------------------
+ * The Line class creates a line from (x,y) = (x0,y0) to (x,y) = (x1,y1)
+ */
 class Line : public Curvebase
 {
 private:
@@ -136,7 +138,9 @@ public:
     }
 };
 
-/**--------------------------Curve class----------------------*/
+/**--------------------------Curve class----------------------
+ * The curve class creates a curve (defined in the description for project 3) from (x,y) = (-10,0) to (x,y) = (5,0)
+ */
 class Curve : public Curvebase
 {
 public:
