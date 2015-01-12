@@ -12,14 +12,14 @@ public:
     void generate_grid (int m, int n);
     void writeToFile();
     // more members
-
+    bool check_consistency();
 private:
     //std::array<Curvebase, 10> sides;
     Curvebase* sides[4];
     //std::shared_ptr<Curvebase> sides[4];
     double *x_, *y_;
     int m_, n_;
-    bool check_consistency();
+    //bool check_consistency();
     // more members
     double fi1(double s);
     double fi2(double s);
@@ -30,24 +30,15 @@ private:
 //Constructor
 Domain::Domain(Curvebase& s1, Curvebase& s2, Curvebase& s3, Curvebase& s4)
 {
-
-    //std::cout << "Test innan i domain:" << std::endl;
-    //std::cout << "s=0: " << s1.x(0) << "\ns=0.5: " << s1.x(0.5) << "\ns=1: "<< s1.x(1) << std::endl;
-
-    //std::cerr <<"\n\nSize Curvebase :"<< sizeof(Curvebase) << "\nSize Line: "<< sizeof(Line) << "\nSize s1:" << sizeof(s1) << std::endl;
-
-
-    //sides = (Curvebase*)calloc(4,sizeof(Curvebase));
     sides[0] = &s1;
     sides[1] = &s2;
     sides[2] = &s3;
     sides[3] = &s4;
 
-    //std::cout << "Test efter i domain:" << std::endl;
-    //std::cout << "s=0: " << sides[0]->x(0) << "\ns=0.5: " << sides[0]->x(0.5) << "\ns=1: "<< sides[0]->x(1) << std::endl;
+   if (~check_consistency())
+        exit(0);
+        //sides[0] = sides[1] = sides[2] = sides[3] = nullptr;
 
-   // if (~check_consistency())
-     //   sides[0] = sides[1] = sides[2] = sides[3] = nullptr;
     m_ = n_ = 0;
     x_ = y_ = nullptr;
 }
@@ -132,57 +123,17 @@ void Domain::generate_grid(int m, int n) {
         {
             for(int j=0; j<m_; j++)
             {
-                /*
-                x_[j+i*m_] = -10; //ett hörn
-                y_[j+i*m_] = 0;
-                */
                 x_[j+i*m_] = FIx(hx*i, hy*j);
                 y_[j+i*m_] = FIy(hx*i, hy*j);
-
-                //if(j==0)
-                //{
-                //    std::cerr << "j==0 -> lower curve, hx = " << hx*i << std::endl;
-                //    std::cerr << "x= " << x_[j+i*m_] <<"\ty = " <<  y_[j+i*m_] << std::endl;
-                //}
-
             }
         }
-
-        //double stegX = 1./(n_-1); //steg för kurvor i x-led (0,2)
-        //double stegY = 1./(n_-1); //steg för kurvor i y-led (1,3)
-
-        /**Bara spara sidorna*//*
-        for(int i=0;i<n_;i++)
-            for(int j=0;j<m_;j++)
-            {
-                if(j==0)
-                {
-                    x_[j+i*m] = sides[0]->x(stegX*i);
-                    y_[j+i*m] = sides[0]->y(stegX*i);
-                }
-                else if(i==n_-1)
-                {
-                    x_[j+i*m] = sides[1]->x(stegY*j);
-                    y_[j+i*m] = sides[1]->y(stegY*j);
-                }
-                else if(j==m_-1)
-                {
-                    x_[j+i*m] = sides[2]->x(stegX*i);
-                    y_[j+i*m] = sides[2]->y(stegX*i);
-                }
-                else if(i==0)
-                {
-                    x_[j+i*m] = sides[3]->x(stegY*j);
-                    y_[j+i*m] = sides[3]->y(stegY*j);
-                }
-            }*/
     }
 }
 
 
 Domain::~Domain()
 {
-    std::cerr << "Domain destructor";
+    std::cerr << "Domain destructor" << std::endl;;
     if (m_ > 0)
     {
         delete [] x_;
@@ -190,13 +141,19 @@ Domain::~Domain()
     }
 }
 
-//bool check_consistency()
-//{
-//    if ( )
-//        return true;
-//    else
-//        return false;
-//}
+bool Domain::check_consistency()
+{
+    std::cout << "Check_constistency" << std::endl;
+    std::cout << "Line 0: (" << sides[0]->x(0) << " , " << sides[0]->y(0) << ") \t (" << sides[0]->x(1) << " , " << sides[0]->y(1) << ")" << std::endl;
+    std::cout << "Line 1: (" << sides[1]->x(0) << " , " << sides[1]->y(0) << ") \t (" << sides[1]->x(1) << " , " << sides[1]->y(1) << ")" << std::endl;
+    std::cout << "Line 2: (" << sides[2]->x(0) << " , " << sides[2]->y(0) << ") \t (" << sides[2]->x(1) << " , " << sides[2]->y(1) << ")" << std::endl;
+    std::cout << "Line 3: (" << sides[3]->x(0) << " , " << sides[3]->y(0) << ") \t (" << sides[3]->x(1) << " , " << sides[3]->y(1) << ")" << std::endl;
+
+    if ( true )
+        return true;
+    else
+        return false;
+}
 
 double Domain::fi1(double s)
 {
