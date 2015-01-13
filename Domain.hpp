@@ -127,8 +127,8 @@ void Domain::generate_grid(int m, int n) {
         {
             for(int j=0; j<m_; j++)
             {
-                x_[j+i*m_] = FIx(hx*i, hy*j);
-                y_[j+i*m_] = FIy(hx*i, hy*j);
+                x_[j+i*m_] = FIx(hx*i,y);
+                y_[j+i*m_] = FIy(hx*i,y);
             }
         }
     }
@@ -186,7 +186,8 @@ double Domain::FIy(double e1, double e2)
                 -fi2(e1)*fi1(e2)*sides[1]->y(1)
                 -fi1(e1)*fi2(e2)*sides[2]->y(0)
                 -fi2(e1)*fi2(e2)*sides[1]->y(0);
-    return FIy;
+    //return FIy; //uniform
+    return 3*(exp(1.5*FIy/3)-1)/(exp(1.5)-1); //non uniform
 }
 
 /**

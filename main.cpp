@@ -20,7 +20,7 @@ int main()
     //Domain D = Domain(L0, L1, L2, L3);
     D.generate_grid(30, 50);
 
-    //D.writeToFile();
+    D.writeToFile();
 
 	return 0;
 }
