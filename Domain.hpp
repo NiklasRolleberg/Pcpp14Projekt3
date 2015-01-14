@@ -63,42 +63,6 @@ Domain::Domain(const Domain& d) :
         }
     }
 
-/** =-operator */
-Domain& Domain::operator=(Domain &d)
-{
-    if (this != &d)
-    {
-        // Do not copy to itself
-    }
-    if (m_ == d.m_ && n_ == d.n_)
-    for (int i = 0; i < m_*n_; i++)
-    {
-        x_[i] = d.x_[i];
-        y_[i] = d.y_[i];
-    }
-    else
-    {
-        if (m_ > 0)
-        {
-            delete [] x_;
-            delete [] y_;
-            x_ = y_ = nullptr;
-        }
-        m_ = d.m_;
-        n_ = d.n_;
-        if (m_ > 0)
-        {
-            x_ = new double[m_*n_];
-            y_ = new double[m_*n_];
-            for (int i = 0; i < m_*n_; i++)
-            {
-                x_[i] = d.x_[i];
-                y_[i] = d.y_[i];
-            }
-        }
-    }
-}
-
 /** Generates a grid with x and y points */
 void Domain::generate_grid(int m, int n) {
     std::cerr << "generate_grid"<< std::endl;
@@ -168,6 +132,7 @@ double Domain::fi2(double s)
     return 1-s;
 }
 
+/** Uniform grid (x points) */
 double Domain::FIx(double e1, double e2)
 {
     double FIx = fi1(e1)*sides[3]->x(e2) + fi2(e1)*sides[1]->x(e2) + fi1(e2)*sides[0]->x(e1) + fi2(e2)*sides[2]->x(e1)
@@ -178,6 +143,7 @@ double Domain::FIx(double e1, double e2)
     return FIx;
 }
 
+/** Choose between a uniform of non uniform grid (y points) */
 double Domain::FIy(double e1, double e2)
 {
     //std::cerr << "FIy"<< std::endl;
